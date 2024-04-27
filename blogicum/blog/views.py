@@ -1,16 +1,15 @@
+from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404, render
 from blog.models import Post, Category
-from django.db.models.functions import Now
 
 
 def index(request):
+    FIRST_FIVE = 5
     template = 'blog/index.html'
 
     post_list = Post.objects.filter(
         is_published='True', pub_date__lte=Now(), category__is_published=True
-    ).order_by(
-        '-pub_date'
-    )[0:5]
+    )[:FIRST_FIVE]
 
     context = {'post_list': post_list}
     return render(request, template, context)

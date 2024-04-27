@@ -4,8 +4,21 @@ from django.db import models
 User = get_user_model()
 
 
-class Category(models.Model):
-    title = models.CharField(max_length=256, verbose_name='Заголовок')
+class BaseModel(models.Model):
+    is_published = models.BooleanField(
+        default=True, verbose_name='Опубликовано',
+        help_text='Снимите галочку, чтобы скрыть публикацию.')
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Добавлено')
+
+    class Meta:
+        abstract = True
+
+
+class Category(BaseModel):
+    LENGHT = 256
+    title = models.CharField(max_length=LENGHT, verbose_name='Заголовок')
     description = models.TextField(
         verbose_name='Описание')
     slug = models.SlugField(
@@ -22,6 +35,7 @@ class Category(models.Model):
         verbose_name='Добавлено')
 
     class Meta:
+        ordering = ['-pub_date']
         verbose_name = 'категория'
         verbose_name_plural = 'Категории'
 
@@ -29,8 +43,9 @@ class Category(models.Model):
         return self.title
 
 
-class Location(models.Model):
-    name = models.CharField(max_length=256, verbose_name='Название места')
+class Location(BaseModel):
+    LENGHT = 256
+    name = models.CharField(max_length=LENGHT, verbose_name='Название места')
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
@@ -39,6 +54,7 @@ class Location(models.Model):
         auto_now_add=True, verbose_name='Добавлено')
 
     class Meta:
+        ordering = ['-pub_date']
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
@@ -46,8 +62,9 @@ class Location(models.Model):
         return self.name
 
 
-class Post(models.Model):
-    title = models.CharField(max_length=256, verbose_name='Заголовок')
+class Post(BaseModel):
+    LENGHT = 256
+    title = models.CharField(max_length=LENGHT, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
@@ -77,6 +94,7 @@ class Post(models.Model):
         auto_now_add=True, verbose_name='Добавлено')
 
     class Meta:
+        ordering = ['-pub_date']
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
 
