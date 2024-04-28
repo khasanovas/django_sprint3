@@ -5,6 +5,7 @@ User = get_user_model()
 
 LENGHT = 256
 
+
 class BaseModel(models.Model):
     is_published = models.BooleanField(
         default=True, verbose_name='Опубликовано',
@@ -44,7 +45,6 @@ class Category(BaseModel):
 
 
 class Location(BaseModel):
-    LENGHT = 256
     name = models.CharField(max_length=LENGHT, verbose_name='Название места')
     is_published = models.BooleanField(
         default=True,
@@ -63,7 +63,6 @@ class Location(BaseModel):
 
 
 class Post(BaseModel):
-    LENGHT = 256
     title = models.CharField(max_length=LENGHT, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
