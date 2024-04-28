@@ -3,6 +3,7 @@ from django.db import models
 
 User = get_user_model()
 
+LENGHT = 256
 
 class BaseModel(models.Model):
     is_published = models.BooleanField(
@@ -17,7 +18,6 @@ class BaseModel(models.Model):
 
 
 class Category(BaseModel):
-    LENGHT = 256
     title = models.CharField(max_length=LENGHT, verbose_name='Заголовок')
     description = models.TextField(
         verbose_name='Описание')
